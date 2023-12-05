@@ -1,5 +1,5 @@
 package com.capg.util;
 
-public class AppConstants {
+public interface AppConstants {
 
 }
