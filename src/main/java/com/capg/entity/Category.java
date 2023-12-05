@@ -1,4 +1,4 @@
-package com.capg.entity;
+ package com.capg.entity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -23,7 +24,7 @@ public class Category {
 	@Column(name="category_name")
 	private String categoryName;
 	
-	@OneToMany(mappedBy="category",cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="category",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
 	@JsonManagedReference(value = "category_id")
 	private List<Question> questions = new ArrayList<>();
 	
@@ -36,7 +37,7 @@ public class Category {
 		this.categoryName = categoryName;
 	}
 
-	public long getCategoryId() {
+	public int getCategoryId() {
 		return categoryId;
 	}
 	

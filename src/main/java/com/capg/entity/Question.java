@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -37,7 +38,7 @@ public class Question {
 	@Column(name="crct_answer")
 	private String crctAnswer;
 	
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne(cascade=CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name="category_id", referencedColumnName = "category_id")
 	@JsonBackReference(value = "category_id")
     private Category category;
@@ -138,10 +139,8 @@ public class Question {
 	public String toString() {
 		return "Question [question_id=" + question_id + ", questionName=" + questionName + ", option1=" + option1
 				+ ", option2=" + option2 + ", option3=" + option3 + ", option4=" + option4 + ", crctAnswer="
-				+ crctAnswer + ", category=" + category + ", isActive=" + isActive + "]";
-	}
-	
-	
+				+ crctAnswer + ", category=" + category.getCategoryId() + ", isActive=" + isActive + "]";
+	}	
 }
 
 
