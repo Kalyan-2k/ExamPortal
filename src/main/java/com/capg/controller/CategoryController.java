@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.capg.entity.Category;
+import com.capg.exceptions.CategoryAlreadyExistsException;
+import com.capg.exceptions.IdNotFoundException;
 import com.capg.service.CategoryService;
 
 @RestController
@@ -25,7 +27,7 @@ public class CategoryController {
 	CategoryService categoryService;
 	
 	@PostMapping("/category")
-	public ResponseEntity<Category> addCategory(@RequestBody Category category){
+	public ResponseEntity<Category> addCategory(@RequestBody Category category)throws CategoryAlreadyExistsException{
 		return new ResponseEntity<Category>(categoryService.createCategory(category), HttpStatus.OK);
 	}
 	
@@ -35,17 +37,17 @@ public class CategoryController {
 	}
 	
 	@GetMapping("/category/{categoryId}")
-	public ResponseEntity<Category> getOneCategory(@PathVariable("categoryId") int cid){
+	public ResponseEntity<Category> getOneCategory(@PathVariable("categoryId") int cid) throws IdNotFoundException{
 		return new ResponseEntity<Category>(categoryService.fetchCategoryById(cid),HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/category/{categoryId}")
-	public ResponseEntity<String> deleteCategory(@PathVariable("categoryId") int cid){
+	public ResponseEntity<String> deleteCategory(@PathVariable("categoryId") int cid) throws IdNotFoundException{
 		return new ResponseEntity<String>(categoryService.deleteCategoryById(cid),HttpStatus.OK);
 	}
 	
 	@PutMapping("/category/{categoryId}")
-	public ResponseEntity<Category> updateCategory(@PathVariable("categoryId") int cid,@RequestBody Category category){
+	public ResponseEntity<Category> updateCategory(@PathVariable("categoryId") int cid,@RequestBody Category category)  throws IdNotFoundException{
 		return new ResponseEntity<Category>(categoryService.updateCategoryById(cid,category),HttpStatus.OK);
 	}
 }
