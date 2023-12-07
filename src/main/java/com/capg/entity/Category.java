@@ -1,4 +1,4 @@
- package com.capg.entity;
+package com.capg.entity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,11 +8,11 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Category {
@@ -24,17 +24,35 @@ public class Category {
 	@Column(name="category_name")
 	private String categoryName;
 	
-	@OneToMany(mappedBy="category",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+	@OneToOne(mappedBy="category",cascade = CascadeType.ALL)
+	@JsonManagedReference(value="category_id")
+	private QuestionBank questionbank;
+	
+	@OneToMany(mappedBy="category",cascade = CascadeType.ALL)
 	@JsonManagedReference(value = "category_id")
 	private List<Question> questions = new ArrayList<>();
 	
+	@OneToMany(mappedBy="category",cascade = CascadeType.ALL)
+	@JsonManagedReference(value = "category_id")
+	private List<Test> tests= new ArrayList<>();
+	
+	public List<Test> getTest() {
+		return tests;
+	}
 
-	public Category() {
+	public void setTest(List<Test> tests) {
+		this.tests = tests;
+	}
+
+	public Category() 
+	{
+	
 	}
 	
-	public Category(int categoryId, String categoryName) {
+	public Category(int categoryId, String categoryName,QuestionBank questionbank) {
 		this.categoryId = categoryId;
 		this.categoryName = categoryName;
+		this.questionbank= questionbank;
 	}
 
 	public int getCategoryId() {
@@ -60,11 +78,17 @@ public class Category {
 	public void setQuestions(List<Question> questions) {
 		this.questions = questions;
 	}
+	public QuestionBank getQuestionBank() {
+		return questionbank;
+	}
+
+	public void setQuestionBank(QuestionBank questionbank) {
+		this.questionbank = questionbank;
+	}
 
 	@Override
 	public String toString() {
-		return "Category [categoryId=" + categoryId + ", categoryName=" + categoryName + ", questions=" + questions
-				+ "]";
+		return "Category [categoryId=" + categoryId + ", categoryName=" + categoryName + ", Questions="+ questions +", QuestionBank="+ questionbank+", tests="+tests+"]";
 	}
 	
 }
