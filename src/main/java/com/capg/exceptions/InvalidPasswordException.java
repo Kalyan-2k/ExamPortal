@@ -1,8 +1,8 @@
 package com.capg.exceptions;
 
-public class InvalidEmailException extends Exception{
+public class InvalidPasswordException extends Exception{
 	String msg;
-	public InvalidEmailException(String msg) {
+	public InvalidPasswordException(String msg) {
 		super();
 		this.msg = msg;
 	}
@@ -12,4 +12,3 @@ public class InvalidEmailException extends Exception{
 	}
 
 }
-
