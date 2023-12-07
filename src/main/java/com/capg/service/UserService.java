@@ -16,5 +16,9 @@ public interface UserService {
 	public User getUser(String email) throws InvalidEmailException;
 	public String deleteUser(int userId) throws IdNotFoundException;
 	public String checkUserByEmail(User user) throws InvalidEmailException,InvalidPasswordException;
-	
+	public User getUserDashBoard(int userId) throws IdNotFoundException;
+	public User updateUserById(int userId,User user) throws IdNotFoundException,InvalidPasswordException,InvalidNameException,InvalidGenderException;
 }
+
+	
+

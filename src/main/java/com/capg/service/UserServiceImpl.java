@@ -105,4 +105,48 @@ public class UserServiceImpl implements UserService
 		}
 		throw new InvalidEmailException(AppConstants.USERNAME_OR_PASSWORD_MISMATCH);
 	}
+	public User getUserDashBoard(int userId) throws IdNotFoundException{
+		if(userRepo.existsById((long)userId)) {
+//			System.out.println(userRepo.finf(userId));
+			return userRepo.findById(userId);
+		}
+		else {
+			throw new IdNotFoundException(AppConstants.USER_ID_NOT_FOUND_INFO);
+		}
+	}
+	public User updateUserById(int userId,User user) throws IdNotFoundException,InvalidPasswordException,InvalidNameException,InvalidGenderException
+	{
+		User updateUser=this.userRepo.findById(userId);
+		if(updateUser==null) {
+			throw new IdNotFoundException(AppConstants.USER_ID_NOT_FOUND_INFO);
+		}
+		else {
+			if(!user.getFirstName().matches("^[a-zA-Z ]*$") && !user.getLastName().matches("^[a-zA-Z ]*$"))
+			{
+				throw new InvalidNameException(AppConstants.INVALID_NAME_INFO);
+			}else {
+				updateUser.setFirstName(user.getFirstName());
+				updateUser.setLastName(user.getLastName());
+			}
+			if(!user.getGender().toLowerCase().equals("male") && !user.getGender().toLowerCase().equals("female") &&!user.getGender().toLowerCase().equals("others"))
+			{
+				throw new InvalidGenderException(AppConstants.INVALID_GENDER_INFO);
+			}else {
+				updateUser.setGender(user.getGender());
+			}
+			if(!user.getPassword().matches("^[a-zA-Z0-9_@#]{8,14}$")) 
+			{
+				throw new InvalidPasswordException(AppConstants.INVALID_PASSWORD_INFO);
+			}
+			else {
+				updateUser.setPassword(user.getPassword());
+			}
+			return userRepo.save(updateUser);
+		}				
+	}
 }
+
+
+
+
+
