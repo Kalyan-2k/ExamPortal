@@ -30,4 +30,54 @@ public class GlobalExceptionHandler {
 	            erroInfo.setLocalDateTime(LocalDateTime.now());
 	            return new ResponseEntity<ErrorInfo>(erroInfo, HttpStatus.BAD_REQUEST);
 	}
+	
+	@ExceptionHandler(InvalidEmailException.class)
+	public ResponseEntity<ErrorInfo> handleEmail(InvalidEmailException invalidEmailException)
+	{
+        ErrorInfo erroInfo = new ErrorInfo();
+        erroInfo.setErrormessage(invalidEmailException.getMsg());
+        erroInfo.setStatus(HttpStatus.BAD_REQUEST.toString());
+        erroInfo.setLocalDateTime(LocalDateTime.now());
+        return new ResponseEntity<ErrorInfo>(erroInfo, HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(InvalidPasswordException.class)
+	public ResponseEntity<ErrorInfo> handlePassword(InvalidPasswordException invalidPasswordException)
+	{
+        ErrorInfo erroInfo = new ErrorInfo();
+        erroInfo.setErrormessage(invalidPasswordException.getMsg());
+        erroInfo.setStatus(HttpStatus.BAD_REQUEST.toString());
+        erroInfo.setLocalDateTime(LocalDateTime.now());
+        return new ResponseEntity<ErrorInfo>(erroInfo, HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(InvalidGenderException.class)
+	public ResponseEntity<ErrorInfo> handleGender(InvalidGenderException invalidGenderException)
+	{
+        ErrorInfo erroInfo = new ErrorInfo();
+        erroInfo.setErrormessage(invalidGenderException.getMsg());
+        erroInfo.setStatus(HttpStatus.BAD_REQUEST.toString());
+        erroInfo.setLocalDateTime(LocalDateTime.now());
+        return new ResponseEntity<ErrorInfo>(erroInfo, HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(UserAlreadyExistsException.class)
+	public ResponseEntity<ErrorInfo> handleUserAlreadyExists(UserAlreadyExistsException userAlreadyExistsException)
+	{
+        ErrorInfo erroInfo = new ErrorInfo();
+        erroInfo.setErrormessage(userAlreadyExistsException.getMsg());
+        erroInfo.setStatus(HttpStatus.BAD_REQUEST.toString());
+        erroInfo.setLocalDateTime(LocalDateTime.now());
+        return new ResponseEntity<ErrorInfo>(erroInfo, HttpStatus.BAD_REQUEST);
+	}
+	
+	@ExceptionHandler(InvalidNameException.class)
+	public ResponseEntity<ErrorInfo> handleName(InvalidNameException invalidNameException)
+	{
+        ErrorInfo erroInfo = new ErrorInfo();
+        erroInfo.setErrormessage(invalidNameException.getMsg());
+        erroInfo.setStatus(HttpStatus.BAD_REQUEST.toString());
+        erroInfo.setLocalDateTime(LocalDateTime.now());
+        return new ResponseEntity<ErrorInfo>(erroInfo, HttpStatus.BAD_REQUEST);
+	}
 }

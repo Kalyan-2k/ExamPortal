@@ -1,8 +1,8 @@
 package com.capg.exceptions;
 
-public class InvalidEmailException extends Exception{
+public class UserAlreadyExistsException extends Exception{
 	String msg;
-	public InvalidEmailException(String msg) {
+	public UserAlreadyExistsException(String msg) {
 		super();
 		this.msg = msg;
 	}
@@ -12,4 +12,3 @@ public class InvalidEmailException extends Exception{
 	}
 
 }
-
