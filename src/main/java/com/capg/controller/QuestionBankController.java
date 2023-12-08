@@ -26,25 +26,25 @@ public class QuestionBankController {
     private QuestionBankService questionBankService;
 
     //add questionbank
-    @PostMapping("/addquestionbank")
+    @PostMapping("/questionbank")
 	public ResponseEntity<QuestionBank> addTest(@RequestBody QuestionBank questionbank)
 	{
 		return new ResponseEntity <QuestionBank>(questionBankService.addQuestionBank(questionbank), HttpStatus.OK);
 	}
     //update questionbank
-    @PutMapping("/update/{questionbank_Id}")
+    @PutMapping("/questionbank/{questionbank_Id}")
     public ResponseEntity<QuestionBank> updateQuestionBankById(@PathVariable("questionbank_Id") int questionbankId,@RequestBody QuestionBank questionbank) throws IdNotFoundException
 	{
 		return new ResponseEntity<QuestionBank>(questionBankService.updateQuestionBankById(questionbankId,questionbank), HttpStatus.OK);
 	}
     //get questionbank
-    @GetMapping("/allquestionbanks")
+    @GetMapping("/questionbanks")
     public ResponseEntity<List<QuestionBank>> getAllQuestionBanks()
 	{
 		return new ResponseEntity <List<QuestionBank>>(questionBankService.getAllQuestionBanks(),HttpStatus.OK);
 	}    
     //delete questionbank
-    @DeleteMapping("/delete-question-bank/{questionbank_Id}")
+    @DeleteMapping("/question-bank/{questionbank_Id}")
     public ResponseEntity<String> deleteQuestionBankById(@PathVariable("questionbank_Id") int questionBankId) throws IdNotFoundException
 	{
 		return new ResponseEntity<String>(questionBankService.deleteQuestionBankById(questionBankId), HttpStatus.OK);
