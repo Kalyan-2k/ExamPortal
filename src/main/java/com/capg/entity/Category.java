@@ -26,7 +26,7 @@ public class Category {
 	
 	@OneToOne(mappedBy="category",cascade = CascadeType.ALL)
 	@JsonManagedReference(value="category_id")
-	private QuestionBank questionbank;
+	private QuestionBank questionBank;
 	
 	@OneToMany(mappedBy="category",cascade = CascadeType.ALL)
 	@JsonManagedReference(value = "category_id")
@@ -34,14 +34,14 @@ public class Category {
 	
 	@OneToMany(mappedBy="category",cascade = CascadeType.ALL)
 	@JsonManagedReference(value = "category_id")
-	private List<Test> tests= new ArrayList<>();
+	private List<Test> test= new ArrayList<>();
 	
 	public List<Test> getTest() {
-		return tests;
+		return test;
 	}
 
 	public void setTest(List<Test> tests) {
-		this.tests = tests;
+		this.test = tests;
 	}
 
 	public Category() 
@@ -49,10 +49,10 @@ public class Category {
 	
 	}
 	
-	public Category(int categoryId, String categoryName,QuestionBank questionbank) {
+	public Category(int categoryId, String categoryName,QuestionBank questionBank) {
 		this.categoryId = categoryId;
 		this.categoryName = categoryName;
-		this.questionbank= questionbank;
+		this.questionBank= questionBank;
 	}
 
 	public int getCategoryId() {
@@ -79,16 +79,16 @@ public class Category {
 		this.questions = questions;
 	}
 	public QuestionBank getQuestionBank() {
-		return questionbank;
+		return questionBank;
 	}
 
-	public void setQuestionBank(QuestionBank questionbank) {
-		this.questionbank = questionbank;
+	public void setQuestionBank(QuestionBank questionBank) {
+		this.questionBank = questionBank;
 	}
 
 	@Override
 	public String toString() {
-		return "Category [categoryId=" + categoryId + ", categoryName=" + categoryName + ", Questions="+ questions +", QuestionBank="+ questionbank+", tests="+tests+"]";
+		return "Category [categoryId=" + categoryId + ", categoryName=" + categoryName + ", Questions="+ questions +", test="+test+"]";
 	}
 	
 }

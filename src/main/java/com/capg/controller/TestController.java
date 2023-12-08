@@ -28,19 +28,19 @@ public class TestController {
 	    private TestService testService;
 
 	    //add test
-	    @PostMapping("/addtest")
+	    @PostMapping("/test")
 		public ResponseEntity<Test> addTest(@RequestBody Test test)
 		{
 			return new ResponseEntity <Test>(testService.addTest(test), HttpStatus.OK);
 		}
 	    //update test
-	    @PutMapping("/test/update/{test_id}")
+	    @PutMapping("/test/{test_id}")
 	    public ResponseEntity<Test> updateTestById(@PathVariable("test_id") int testId,@RequestBody Test test) throws IdNotFoundException
 		{
 			return new ResponseEntity<Test>(testService.updateTestById(testId,test), HttpStatus.OK);
 		}
 	    //get test
-	    @GetMapping("/getalltests")
+	    @GetMapping("/tests")
 	    public ResponseEntity<List<Test>> getAllTests()
 		{
 			return new ResponseEntity <List<Test>>(testService.getAllTests(),HttpStatus.OK);
@@ -54,14 +54,14 @@ public class TestController {
 		}
 	    
 	    //delete test
-	    @DeleteMapping("/deletetest/{test_id}")
+	    @DeleteMapping("/test/{test_id}")
 	    public ResponseEntity<String> deleteTestById(@PathVariable("test_id") int testId) throws IdNotFoundException
 		{
 			return new ResponseEntity<String>(testService.deleteTestByTestId(testId), HttpStatus.OK);
 		}
 	   
 	    //get test of particular category
-	    @GetMapping("/category/{category_id}")
+	    @GetMapping("/test/category/{category_id}")
 		public ResponseEntity<List<Test>> getTestOfCategory(@PathVariable Category category)
 		{
 			return new ResponseEntity<List<Test>>(testService.getTestOfCategory(category), HttpStatus.OK);
