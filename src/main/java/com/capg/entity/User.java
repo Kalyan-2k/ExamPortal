@@ -1,6 +1,7 @@
 package com.capg.entity;
 
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,33 +15,35 @@ public class User {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	@Column(name="user_id")
+	private int userId;
 	private String firstName;
 	private String lastName;
 	private String gender;
 	private String email;
 	private String password;
-	private String role;
+	@Column(name="user_role")
+	private String userRole="user";
 
 	public User() {
 	}
 
 	public User(int id, String password, String firstName, String lastName, String email, String role, String gender) {
-		this.id = id;
+		this.userId = id;
 		this.password = password;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
-		this.role = role;
+		this.userRole = role;
 		this.gender = gender;
 	}
 
-	public int getId() {
-		return id;
+	public int getUserId() {
+		return userId;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setUserId(int id) {
+		this.userId = id;
 	}
 
 	public String getPassword() {
@@ -76,11 +79,11 @@ public class User {
 	}
 
 	public String getRole() {
-		return role;
+		return userRole;
 	}
 
 	public void setRole(String role) {
-		this.role = role;
+		this.userRole = role;
 	}
 
 	public String getGender() {
@@ -93,8 +96,8 @@ public class User {
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", gender=" + gender
-				+ ", email=" + email + ", password=" + password + ", role=" + role + "]";
+		return "User [id=" + userId + ", firstName=" + firstName + ", lastName=" + lastName + ", gender=" + gender
+				+ ", email=" + email + ", password=" + password + ", role=" + userRole + "]";
 	}
-	
+
 }
