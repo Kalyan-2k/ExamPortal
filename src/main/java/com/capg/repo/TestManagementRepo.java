@@ -6,4 +6,5 @@ import com.capg.entity.TestManagement;
 
 public interface TestManagementRepo extends JpaRepository<TestManagement,Integer> {
 	
+	
 }

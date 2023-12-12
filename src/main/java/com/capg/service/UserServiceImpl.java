@@ -42,6 +42,14 @@ public class UserServiceImpl implements UserService
 			throw new UserAlreadyExistsException("User already present");
 		}
 		else {
+			if(!user.getFirstName().matches("^[a-zA-Z]+(\s[a-zA-Z]+)?$") || !user.getLastName().matches("^[a-zA-Z]+(\s[a-zA-Z]+)?$"))
+			{
+				throw new InvalidNameException(AppConstants.INVALID_NAME_INFO);
+			}		
+			if(!user.getGender().toLowerCase().equals("male") && !user.getGender().toLowerCase().equals("female") &&!user.getGender().toLowerCase().equals("others"))
+			{
+				throw new InvalidGenderException(AppConstants.INVALID_GENDER_INFO);
+			}	
 			if( !user.getEmail().matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) 
 			{
 				throw new InvalidEmailException(AppConstants.INVALID_EMAIL_INFO);
@@ -50,18 +58,6 @@ public class UserServiceImpl implements UserService
 			{
 				throw new InvalidPasswordException(AppConstants.INVALID_PASSWORD_INFO);
 			}
-			
-			if(!user.getFirstName().matches("^[a-zA-Z]+(\s[a-zA-Z]+)?$") && !user.getLastName().matches("^[a-zA-Z]+(\s[a-zA-Z]+)?$"))
-			{
-				
-				throw new InvalidNameException(AppConstants.INVALID_NAME_INFO);
-				
-			}
-			
-			if(!user.getGender().toLowerCase().equals("male") && !user.getGender().toLowerCase().equals("female") &&!user.getGender().toLowerCase().equals("others"))
-			{
-				throw new InvalidGenderException(AppConstants.INVALID_GENDER_INFO);
-			}	
 		}
 		return userRepo.save(user);
 		
@@ -95,8 +91,11 @@ public class UserServiceImpl implements UserService
 	
 	@Override
 	public List<User> getAllUsers() {
-		// TODO Auto-generated method stub
-		return userRepo.findAll();
+		
+		List<User> users = userRepo.findAll();
+		System.out.println(users);
+		
+		return users;
 	}
 	
 	public String checkUserByEmail(User user) throws InvalidEmailException,InvalidPasswordException{
