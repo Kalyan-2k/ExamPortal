@@ -12,7 +12,7 @@ import com.capg.dto.QuestionDto;
 import com.capg.dto.ResultDto;
 import com.capg.entity.Question;
 import com.capg.entity.Result;
-import com.capg.entity.Test;
+import com.capg.entity.Tests;
 import com.capg.entity.TestManagement;
 import com.capg.entity.User;
 import com.capg.exceptions.IdNotFoundException;
@@ -56,7 +56,7 @@ public class TestMangementServiceimpl implements TestManagementService{
 		}else {
 			Optional<User> user=userRepository.findById((long)userId);
 			if(user.isPresent()) {
-				Optional<Test> test=testRepository.findById(testId);
+				Optional<Tests> test=testRepository.findById(testId);
 				if(test.isPresent()) {
 					Result newResult=new Result();
 					newResult.setUserId(user.get().getUserId());

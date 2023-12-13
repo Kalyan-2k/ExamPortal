@@ -6,10 +6,10 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.capg.entity.Category;
-import com.capg.entity.Test;
+import com.capg.entity.Tests;
 
-public interface TestRepo  extends JpaRepository<Test,Integer>{
+public interface TestRepo  extends JpaRepository<Tests,Integer>{
 
-	public List<Test> findByCategory(Category category);
+	public List<Tests> findByCategory(Category category);
 
 }

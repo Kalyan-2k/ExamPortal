@@ -33,6 +33,11 @@ public class QuestionBank {
 	{
 		
 	}
+	
+	public QuestionBank(int questionBankId, String questionBankName) {
+		this.questionBankId = questionBankId;
+		this.questionBankName = questionBankName;
+	}
 
 	public QuestionBank(int questionBankId, String questionBankName, Category category) {
 		this.questionBankId = questionBankId;

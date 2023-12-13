@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.capg.entity.Category;
-import com.capg.entity.Test;
+import com.capg.entity.Tests;
 import com.capg.exceptions.IdNotFoundException;
 import com.capg.service.TestService;
 
@@ -29,28 +29,28 @@ public class TestController {
 
 	    //add test
 	    @PostMapping("/test")
-		public ResponseEntity<Test> addTest(@RequestBody Test test)
+		public ResponseEntity<Tests> addTest(@RequestBody Tests test)
 		{
-			return new ResponseEntity <Test>(testService.addTest(test), HttpStatus.OK);
+			return new ResponseEntity <Tests>(testService.addTest(test), HttpStatus.OK);
 		}
 	    //update test
 	    @PutMapping("/test/{test_id}")
-	    public ResponseEntity<Test> updateTestById(@PathVariable("test_id") int testId,@RequestBody Test test) throws IdNotFoundException
+	    public ResponseEntity<Tests> updateTestById(@PathVariable("test_id") int testId,@RequestBody Tests test) throws IdNotFoundException
 		{
-			return new ResponseEntity<Test>(testService.updateTestById(testId,test), HttpStatus.OK);
+			return new ResponseEntity<Tests>(testService.updateTestById(testId,test), HttpStatus.OK);
 		}
 	    //get test
 	    @GetMapping("/tests")
-	    public ResponseEntity<List<Test>> getAllTests()
+	    public ResponseEntity<List<Tests>> getAllTests()
 		{
-			return new ResponseEntity <List<Test>>(testService.getAllTests(),HttpStatus.OK);
+			return new ResponseEntity <List<Tests>>(testService.getAllTests(),HttpStatus.OK);
 		}
 
 	    //get single test	
 	    @GetMapping("/test/{test_id}")
-	    public ResponseEntity<Test> getTest(@PathVariable("test_id") int testId)
+	    public ResponseEntity<Tests> getTest(@PathVariable("test_id") int testId)
 		{
-			return new ResponseEntity<Test>(testService.getTest(testId), HttpStatus.OK);
+			return new ResponseEntity<Tests>(testService.getTest(testId), HttpStatus.OK);
 		}
 	    
 	    //delete test
@@ -62,9 +62,9 @@ public class TestController {
 	   
 	    //get test of particular category
 	    @GetMapping("/test/category/{category_id}")
-		public ResponseEntity<List<Test>> getTestOfCategory(@PathVariable Category category)
+		public ResponseEntity<List<Tests>> getTestOfCategory(@PathVariable Category category)
 		{
-			return new ResponseEntity<List<Test>>(testService.getTestOfCategory(category), HttpStatus.OK);
+			return new ResponseEntity<List<Tests>>(testService.getTestOfCategory(category), HttpStatus.OK);
 		}
 }
 
