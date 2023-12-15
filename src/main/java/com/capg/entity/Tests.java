@@ -15,7 +15,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name="test")
-public class Test {
+public class Tests {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="test_id")
@@ -37,23 +37,20 @@ public class Test {
 	@JsonBackReference(value = "category_id")
 	private Category category;
 	
-	/*public List<Question> getQuestions() {
-	    return questions;
-	}
-	public void setQuestions(List<Question> questions) {
-	    this.questions = questions;
-	}
-	
-	@OneToMany(mappedBy = "test",cascade = CascadeType.ALL)
-	private List<Question> questions= new ArrayList<>();
-	*/
-	
-	public Test()
+	public Tests()
 	{
 		
 	}
+	
+	public Tests(int testId, String testName, int noOfQuestions, int maxMarks, boolean isActive) {
+		this.testId = testId;
+		this.testName = testName;
+		this.noOfQuestions = noOfQuestions;
+		this.maxMarks = maxMarks;
+		this.isActive = isActive;
+	}
 
-	public Test(int testId, String testName, int noOfQuestions, int maxMarks, boolean isActive, Category category) {
+	public Tests(int testId, String testName, int noOfQuestions, int maxMarks, boolean isActive, Category category) {
 		this.testId = testId;
 		this.testName = testName;
 		this.noOfQuestions = noOfQuestions;

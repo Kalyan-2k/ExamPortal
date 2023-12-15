@@ -34,13 +34,13 @@ public class Category {
 	
 	@OneToMany(mappedBy="category",cascade = CascadeType.ALL)
 	@JsonManagedReference(value = "category_id")
-	private List<Test> test= new ArrayList<>();
+	private List<Tests> test= new ArrayList<>();
 	
-	public List<Test> getTest() {
+	public List<Tests> getTest() {
 		return test;
 	}
 
-	public void setTest(List<Test> tests) {
+	public void setTest(List<Tests> tests) {
 		this.test = tests;
 	}
 
@@ -49,11 +49,21 @@ public class Category {
 	
 	}
 	
-	public Category(int categoryId, String categoryName,QuestionBank questionBank) {
+	
+	public Category(int categoryId, String categoryName, QuestionBank questionBank, List<Question> questions,
+			List<Tests> test) {
 		this.categoryId = categoryId;
 		this.categoryName = categoryName;
-		this.questionBank= questionBank;
+		this.questionBank = questionBank;
+		this.questions = questions;
+		this.test = test;
 	}
+
+//	public Category(int categoryId, String categoryName,QuestionBank questionBank) {
+//		this.categoryId = categoryId;
+//		this.categoryName = categoryName;
+//		this.questionBank= questionBank;
+//	}
 
 	public int getCategoryId() {
 		return categoryId;

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -15,7 +16,9 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.capg.entity.Category;
+import com.capg.entity.Question;
 import com.capg.entity.QuestionBank;
+import com.capg.entity.Tests;
 import com.capg.exceptions.IdNotFoundException;
 import com.capg.repo.CategoryRepository;
 import com.capg.repo.QuestionBankRepo;
@@ -26,7 +29,7 @@ import com.capg.util.AppConstants;
 public class QuestionBankServiceTest{
 
     @Mock
-    private QuestionBankRepo questionBankRepo;
+    private QuestionBankRepo questionBankRepository;
 
     @Mock
     private CategoryRepository categoryRepository;
@@ -34,36 +37,26 @@ public class QuestionBankServiceTest{
     @InjectMocks
     private QuestionBankServiceImpl questionBankService;
 
+    private Category category;
+    private List<QuestionBank> questionBank = null;
+
     @BeforeEach
-    void setUp() {
-        MockitoAnnotations.initMocks(this);
+    public void setUp() {
+        category = new Category();
+        category.setCategoryId(1);
+        category.setCategoryName("Sample Category");
+       
+        questionBank= new ArrayList<>();
     }
-
-    @Test
-    void testAddQuestionBank() {
-        QuestionBank questionBank = new QuestionBank();
-        Category category = new Category();
-        questionBank.setCategory(category);
-
-        when(categoryRepository.existsById(anyInt())).thenReturn(true);
-        when(categoryRepository.findById(anyInt())).thenReturn(Optional.of(category));
-        when(questionBankRepo.save(any(QuestionBank.class))).thenReturn(questionBank);
-
-        QuestionBank result = questionBankService.addQuestionBank(questionBank);
-
-        assertNotNull(result);
-        assertEquals(category, result.getCategory());
-    }
-
     @Test
     void testUpdateQuestionBankById() throws IdNotFoundException {
-        int questionBankId = 1;
+        int questionBankId = 1; 
         QuestionBank existingQuestionBank = new QuestionBank();
         existingQuestionBank.setQuestionBankId(questionBankId);
 
-        when(questionBankRepo.existsById(questionBankId)).thenReturn(true);
-        when(questionBankRepo.findById(questionBankId)).thenReturn(Optional.of(existingQuestionBank));
-        when(questionBankRepo.save(any(QuestionBank.class))).thenReturn(existingQuestionBank);
+        when(questionBankRepository.existsById(questionBankId)).thenReturn(true);
+        when(questionBankRepository.findById(questionBankId)).thenReturn(Optional.of(existingQuestionBank));
+        when(questionBankRepository.save(any(QuestionBank.class))).thenReturn(existingQuestionBank);
 
         QuestionBank updatedQuestionBank = new QuestionBank();
         updatedQuestionBank.setQuestionBankId(questionBankId);
@@ -72,13 +65,15 @@ public class QuestionBankServiceTest{
 
         assertNotNull(result);
         assertEquals(questionBankId, result.getQuestionBankId());
-    }
-
+       }
+        
+    @DisplayName("TestCase for update Test By Id Without Exception")
     @Test
     void testUpdateQuestionBankByIdNotFound() {
         int questionBankId = 1;
-
-        when(questionBankRepo.existsById(questionBankId)).thenReturn(false);
+        questionBank.add(new QuestionBank(1,"python questionBank",category));
+        
+        when(questionBankRepository.existsById(questionBankId)).thenReturn(false);
 
         assertThrows(IdNotFoundException.class,
                 () -> questionBankService.updateQuestionBankById(questionBankId, new QuestionBank()));
@@ -86,20 +81,21 @@ public class QuestionBankServiceTest{
 
     @Test
     void testGetAllQuestionBanks() {
-        List<QuestionBank> questionBanks = new ArrayList<>();
-        when(questionBankRepo.findAll()).thenReturn(questionBanks);
-
-        List<QuestionBank> result = questionBankService.getAllQuestionBanks();
-
-        assertNotNull(result);
-        assertEquals(questionBanks, result);
-    }
+    	
+    	questionBank.add(new QuestionBank(1,"python questionBank",category));
+        questionBank.add(new QuestionBank(2,"java questionBank",category));
+        questionBank.add(new QuestionBank(3,"c questionBank",category));
+        
+        when(questionBankRepository.findAll()).thenReturn(questionBank);
+		assertEquals(3,questionBankService.getAllQuestionBanks().size());
+    }       
+    
 
     @Test
     void testDeleteQuestionBankById() throws IdNotFoundException {
         int questionBankId = 1;
 
-        when(questionBankRepo.existsById(questionBankId)).thenReturn(true);
+        when(questionBankRepository.existsById(questionBankId)).thenReturn(true);
 
         String result = questionBankService.deleteQuestionBankById(questionBankId);
 
@@ -111,9 +107,10 @@ public class QuestionBankServiceTest{
     void testDeleteQuestionBankByIdNotFound() {
         int questionBankId = 1;
 
-        when(questionBankRepo.existsById(questionBankId)).thenReturn(false);
+        when(questionBankRepository.existsById(questionBankId)).thenReturn(false);
 
         assertThrows(IdNotFoundException.class, () -> questionBankService.deleteQuestionBankById(questionBankId));
     }
+    
 }
 

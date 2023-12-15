@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.capg.entity.Category;
 import com.capg.entity.QuestionBank;
 import com.capg.exceptions.IdNotFoundException;
+import com.capg.exceptions.NameNotFoundException;
 import com.capg.repo.CategoryRepository;
 import com.capg.repo.QuestionBankRepo;
 import com.capg.util.AppConstants;
@@ -52,7 +53,7 @@ public class QuestionBankServiceImpl implements QuestionBankService {
 		}
 		else
 		{
-			throw new IdNotFoundException(AppConstants.TEST_ID_NOT_FOUND_INFO);
+			throw new IdNotFoundException(AppConstants.QUESTIONBANK_ID_NOT_FOUND_INFO);
 		}
 		
 		}
@@ -63,6 +64,22 @@ public class QuestionBankServiceImpl implements QuestionBankService {
 		
 			return questionBankRepo.findAll();
 		}
+		
+		public QuestionBank getQuestionBankByName(String questionBankName) throws NameNotFoundException
+		{
+	
+			System.out.println(questionBankName);
+			if(questionBankRepo.existsByQuestionBankName(questionBankName))
+			{
+				return questionBankRepo.getQuestionBankByName(questionBankName);
+//				System.out.println(questionBankRepo.getQuestionBankByName(questionBankName));
+//				msg="Id deleted successfully";
+			}
+			else
+			{
+				throw new NameNotFoundException(AppConstants.QUESTIONBANK_NAME_NOT_FOUND_INFO);
+			}
+		}		
 
 		
 	public String deleteQuestionBankById(int QuestionBankId) throws IdNotFoundException
@@ -76,7 +93,7 @@ public class QuestionBankServiceImpl implements QuestionBankService {
 			}
 			else
 			{
-				throw new IdNotFoundException(AppConstants.TEST_ID_NOT_FOUND_INFO);
+				throw new IdNotFoundException(AppConstants.QUESTIONBANK_ID_NOT_FOUND_INFO);
 			}
 			
 			return msg;

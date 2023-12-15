@@ -2,13 +2,12 @@
 package com.capg.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.capg.entity.Category;
-import com.capg.entity.Test;
+import com.capg.entity.Tests;
 import com.capg.exceptions.IdNotFoundException;
 import com.capg.repo.CategoryRepository;
 import com.capg.repo.TestRepo;
@@ -23,7 +22,7 @@ public class TestServiceImpl implements TestService{
 	CategoryRepository categoryRepository;
 
 	
-	public Test addTest(Test test) {
+	public Tests addTest(Tests test) {
 		
 		Category category=null;
 		System.out.println(test.getCategory());
@@ -33,13 +32,14 @@ public class TestServiceImpl implements TestService{
 			System.out.println("Fetching Category: \n"+category);
 			test.setCategory(category);
 		}
+	
 		return testRepo.save(test);
 	}
 
 
-	public Test updateTestById(int testId, Test test) throws IdNotFoundException {
+	public Tests updateTestById(int testId, Tests test) throws IdNotFoundException {
 		
-		Test updateTest=null;
+		Tests updateTest=null;
 		
 		if(testRepo.existsById(testId))
 		{
@@ -55,14 +55,20 @@ public class TestServiceImpl implements TestService{
 	}
 
 	
-	public List<Test> getAllTests() {
+	public List<Tests> getAllTests() {
 		// TODO Auto-generated method stub
 		return testRepo.findAll();
 	}
 
-	public Test getTest(int testId) {
+	public Tests getTestById(int testId) throws IdNotFoundException{
 		// TODO Auto-generated method stub
-		return testRepo.findById(testId).get();
+		Tests test = testRepo.findById(testId).get(); 
+		System.out.println(test);
+		if(test == null) {
+			throw new IdNotFoundException(AppConstants.TEST_ID_NOT_FOUND_INFO);
+		}else {
+			return test;
+		}
 	}
 
 	public String deleteTestByTestId(int testId) throws IdNotFoundException{
@@ -77,13 +83,6 @@ public class TestServiceImpl implements TestService{
 		}
 		
 	}
-
-	
-	public List<Test> getTestOfCategory(Category category) {
-		// TODO Auto-generated method stub
-		return testRepo.findByCategory(category);
-	}
-	
 	
 }
 
