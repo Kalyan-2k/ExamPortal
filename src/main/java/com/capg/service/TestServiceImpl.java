@@ -60,7 +60,9 @@ public class TestServiceImpl implements TestService{
 		return testRepo.findAll();
 	}
 
+
 	public Tests getTestById(int testId) throws IdNotFoundException{
+
 		// TODO Auto-generated method stub
 		Tests test = testRepo.findById(testId).get(); 
 		System.out.println(test);
@@ -82,7 +84,6 @@ public class TestServiceImpl implements TestService{
 			throw new IdNotFoundException(AppConstants.TEST_ID_NOT_FOUND_INFO);
 		}
 		
-	}
-	
+	}	
 }
 

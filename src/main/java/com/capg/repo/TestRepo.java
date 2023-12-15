@@ -11,9 +11,9 @@ import com.capg.entity.Category;
 import com.capg.entity.Tests;
 
 public interface TestRepo  extends JpaRepository<Tests,Integer>{
-
-	public List<Tests> findByCategory(Category category);
 	
+  public List<Tests> findByCategory(Category category);
+  
 //	@Query(value="select * from test where category_id=:categoryId",nativeQuery=true)
 //	List<Tests> getTestsByCategoryId(@Param("categoryId") int categoryId);
 }

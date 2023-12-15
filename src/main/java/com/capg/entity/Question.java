@@ -51,8 +51,8 @@ public class Question {
 	
 
 	public Question(int question_id, String questionName, String option1, String option2, String option3,
-			String option4, String crctAnswer, boolean isActive) {
-		this.question_id = question_id;
+			String option4, String crctAnswer, boolean isActive) { // Without Category
+		this.question_id = question_id;  
 		this.questionName = questionName;
 		this.option1 = option1;
 		this.option2 = option2;
@@ -64,7 +64,7 @@ public class Question {
 
 
 //	public Question(String questionName, String option1, String option2, String option3, String option4,
-//			String crctAnswer, Category category, boolean isActive) {
+//			String crctAnswer, Category category, boolean isActive) {  // With Category
 //		this.questionName = questionName;
 //		this.option1 = option1;
 //		this.option2 = option2;

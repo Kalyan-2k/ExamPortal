@@ -49,9 +49,8 @@ public class Category {
 	
 	}
 	
-	
-	public Category(int categoryId, String categoryName, QuestionBank questionBank, List<Question> questions,
-			List<Tests> test) {
+	public Category(int categoryId, String categoryName,QuestionBank questionBank,List<Question> questions,List<Tests> test) {
+
 		this.categoryId = categoryId;
 		this.categoryName = categoryName;
 		this.questionBank = questionBank;

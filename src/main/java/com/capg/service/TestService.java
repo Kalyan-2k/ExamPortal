@@ -13,5 +13,6 @@ public interface TestService {
     public  Tests getTestById(int testId) throws IdNotFoundException;
     public  String  deleteTestByTestId(int testId) throws IdNotFoundException; 
 //	public List<Tests> getTestOfCategory(int categoryId)  throws IdNotFoundException;
+
 	
 }
