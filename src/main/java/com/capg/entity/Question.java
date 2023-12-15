@@ -48,8 +48,8 @@ public class Question {
 
 	public Question() {
 	}
-
 	
+
 	public Question(int question_id, String questionName, String option1, String option2, String option3,
 			String option4, String crctAnswer, boolean isActive) { // Without Category
 		this.question_id = question_id;  

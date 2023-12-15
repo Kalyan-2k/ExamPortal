@@ -48,9 +48,9 @@ public class TestController {
 
 	    //get single test	
 	    @GetMapping("/test/{test_id}")
-	    public ResponseEntity<Tests> getTest(@PathVariable("test_id") int testId)
+	    public ResponseEntity<Tests> getTest(@PathVariable("test_id") int testId) throws IdNotFoundException
 		{
-			return new ResponseEntity<Tests>(testService.getTest(testId), HttpStatus.OK);
+			return new ResponseEntity<Tests>(testService.getTestById(testId), HttpStatus.OK);
 		}
 	    
 	    //delete test
@@ -60,11 +60,11 @@ public class TestController {
 			return new ResponseEntity<String>(testService.deleteTestByTestId(testId), HttpStatus.OK);
 		}
 	   
-	    //get test of particular category
-	    @GetMapping("/test/category/{category_id}")
-		public ResponseEntity<List<Tests>> getTestOfCategory(@PathVariable Category category)
-		{
-			return new ResponseEntity<List<Tests>>(testService.getTestOfCategory(category), HttpStatus.OK);
-		}
+//	    //get test of particular category
+//	    @GetMapping("/test/category/{categoryId}")
+//		public ResponseEntity<List<Tests>> getTestOfCategory(@PathVariable("categoryId") int categoryId)  throws IdNotFoundException
+//		{
+//			return new ResponseEntity<List<Tests>>(testService.getTestOfCategory(categoryId), HttpStatus.OK);
+//		}
 }
 

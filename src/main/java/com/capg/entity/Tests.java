@@ -37,22 +37,9 @@ public class Tests {
 	@JsonBackReference(value = "category_id")
 	private Category category;
 	
-	/*public List<Question> getQuestions() {
-	    return questions;
-	}
-	public void setQuestions(List<Question> questions) {
-	    this.questions = questions;
-	}
-	
-	@OneToMany(mappedBy = "test",cascade = CascadeType.ALL)
-	private List<Question> questions= new ArrayList<>();
-	*/
-	
 	public Tests()
 	{
-		
-	}
-
+  }
 	
 	public Tests(int testId, String testName, int noOfQuestions, int maxMarks, boolean isActive) {
 		this.testId = testId;
@@ -61,7 +48,14 @@ public class Tests {
 		this.maxMarks = maxMarks;
 		this.isActive = isActive;
 	}
-
+	public Tests(int testId, String testName, int noOfQuestions, int maxMarks, boolean isActive, Category category) {
+		this.testId = testId;
+		this.testName = testName;
+		this.noOfQuestions = noOfQuestions;
+		this.maxMarks = maxMarks;
+		this.isActive = isActive;
+		this.category = category;
+	}
 //	public Test(int testId, String testName, int noOfQuestions, int maxMarks, boolean isActive, Category category) {
 //		this.testId = testId;
 //		this.testName = testName;

@@ -14,4 +14,8 @@ public interface AppConstants {
 	public static final String INVALID_GENDER_INFO = "Gender should contains male, female, others as the only options";
 	public static final String USERNAME_OR_PASSWORD_MISMATCH = "UserName or Password is Incorrect. Please Try Again"; 
 	public static final String PASSWORD_MISMATCH_INFO = "Password and Confirm Password Doesn't match with each other. Please enter same password in both fields";
+	public static final String QUESTIONBANK_ID_NOT_FOUND_INFO = "THE GIVEN QUESTIONBANK ID DOES NOT EXIST IN THE DATABASE";
+	public static final String QUESTIONBANK_NAME_NOT_FOUND_INFO = "THE GIVEN QUESTIONBANK NAME DOES NOT EXIST IN THE DATABASE";
+	
+
 }

@@ -10,8 +10,9 @@ public interface TestService {
 	public Tests addTest(Tests test);
 	public Tests updateTestById(int testId,Tests test)throws IdNotFoundException; 
     public List<Tests> getAllTests();
-    public  Tests getTest(int tId);
+    public  Tests getTestById(int testId) throws IdNotFoundException;
     public  String  deleteTestByTestId(int testId) throws IdNotFoundException; 
-	public List<Tests> getTestOfCategory(Category cat);
+//	public List<Tests> getTestOfCategory(int categoryId)  throws IdNotFoundException;
+
 	
 }

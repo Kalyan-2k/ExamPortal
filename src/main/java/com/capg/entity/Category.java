@@ -50,12 +50,19 @@ public class Category {
 	}
 	
 	public Category(int categoryId, String categoryName,QuestionBank questionBank,List<Question> questions,List<Tests> test) {
+
 		this.categoryId = categoryId;
 		this.categoryName = categoryName;
 		this.questionBank = questionBank;
 		this.questions = questions;
 		this.test = test;
 	}
+
+//	public Category(int categoryId, String categoryName,QuestionBank questionBank) {
+//		this.categoryId = categoryId;
+//		this.categoryName = categoryName;
+//		this.questionBank= questionBank;
+//	}
 
 	public int getCategoryId() {
 		return categoryId;

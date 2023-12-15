@@ -2,7 +2,6 @@
 package com.capg.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,6 +32,7 @@ public class TestServiceImpl implements TestService{
 			System.out.println("Fetching Category: \n"+category);
 			test.setCategory(category);
 		}
+	
 		return testRepo.save(test);
 	}
 
@@ -60,9 +60,17 @@ public class TestServiceImpl implements TestService{
 		return testRepo.findAll();
 	}
 
-	public Tests getTest(int testId) {
+
+	public Tests getTestById(int testId) throws IdNotFoundException{
+
 		// TODO Auto-generated method stub
-		return testRepo.findById(testId).get();
+		Tests test = testRepo.findById(testId).get(); 
+		System.out.println(test);
+		if(test == null) {
+			throw new IdNotFoundException(AppConstants.TEST_ID_NOT_FOUND_INFO);
+		}else {
+			return test;
+		}
 	}
 
 	public String deleteTestByTestId(int testId) throws IdNotFoundException{
@@ -76,14 +84,6 @@ public class TestServiceImpl implements TestService{
 			throw new IdNotFoundException(AppConstants.TEST_ID_NOT_FOUND_INFO);
 		}
 		
-	}
-
-	
-	public List<Tests> getTestOfCategory(Category category) {
-		// TODO Auto-generated method stub
-		return testRepo.findByCategory(category);
-	}
-	
-	
+	}	
 }
 

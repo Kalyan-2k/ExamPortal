@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.capg.entity.QuestionBank;
 import com.capg.exceptions.IdNotFoundException;
+import com.capg.exceptions.NameNotFoundException;
 import com.capg.service.QuestionBankService;
 
 @RestController
@@ -43,6 +44,15 @@ public class QuestionBankController {
 	{
 		return new ResponseEntity <List<QuestionBank>>(questionBankService.getAllQuestionBanks(),HttpStatus.OK);
 	}    
+    
+    //get questionBank By Name
+    @GetMapping("/questionbank/{questionbank_Name}")
+    public ResponseEntity<QuestionBank> getQuestionBankByName(@PathVariable("questionbank_Name") String questionBankName) throws NameNotFoundException
+	{
+//    	System.out.println(questionBankName);
+		return new ResponseEntity<QuestionBank>(questionBankService.getQuestionBankByName(questionBankName), HttpStatus.OK);
+	}
+    
     //delete questionbank
     @DeleteMapping("/question-bank/{questionbank_Id}")
     public ResponseEntity<String> deleteQuestionBankById(@PathVariable("questionbank_Id") int questionBankId) throws IdNotFoundException
