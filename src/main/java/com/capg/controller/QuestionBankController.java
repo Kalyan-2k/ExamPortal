@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.capg.dto.QuestionBankDto;
 import com.capg.entity.QuestionBank;
 import com.capg.exceptions.IdNotFoundException;
 import com.capg.exceptions.NameNotFoundException;
@@ -27,37 +28,45 @@ public class QuestionBankController {
     private QuestionBankService questionBankService;
 
     //add questionbank
-    @PostMapping("/questionbank")
+    @PostMapping("/admin/questionbank")
 	public ResponseEntity<QuestionBank> addTest(@RequestBody QuestionBank questionbank)
 	{
 		return new ResponseEntity <QuestionBank>(questionBankService.addQuestionBank(questionbank), HttpStatus.OK);
 	}
     //update questionbank
-    @PutMapping("/questionbank/{questionbank_Id}")
-    public ResponseEntity<QuestionBank> updateQuestionBankById(@PathVariable("questionbank_Id") int questionbankId,@RequestBody QuestionBank questionbank) throws IdNotFoundException
+    @PutMapping("/admin/questionbank/{questionBankId}")
+    public ResponseEntity<QuestionBank> updateQuestionBankById(@PathVariable("questionbankId") int questionbankId,@RequestBody QuestionBank questionbank) throws IdNotFoundException
 	{
 		return new ResponseEntity<QuestionBank>(questionBankService.updateQuestionBankById(questionbankId,questionbank), HttpStatus.OK);
 	}
     //get questionbank
-    @GetMapping("/questionbanks")
+    @GetMapping("/admin/questionbanks")
     public ResponseEntity<List<QuestionBank>> getAllQuestionBanks()
 	{
 		return new ResponseEntity <List<QuestionBank>>(questionBankService.getAllQuestionBanks(),HttpStatus.OK);
 	}    
     
     //get questionBank By Name
-    @GetMapping("/questionbank/{questionbank_Name}")
-    public ResponseEntity<QuestionBank> getQuestionBankByName(@PathVariable("questionbank_Name") String questionBankName) throws NameNotFoundException
+    @GetMapping("/admin/questionbank/{questionBankName}")
+    public ResponseEntity<QuestionBank> getQuestionBankByName(@PathVariable("questionBankName") String questionBankName) throws NameNotFoundException
 	{
 //    	System.out.println(questionBankName);
 		return new ResponseEntity<QuestionBank>(questionBankService.getQuestionBankByName(questionBankName), HttpStatus.OK);
 	}
     
     //delete questionbank
-    @DeleteMapping("/question-bank/{questionbank_Id}")
-    public ResponseEntity<String> deleteQuestionBankById(@PathVariable("questionbank_Id") int questionBankId) throws IdNotFoundException
+    @DeleteMapping("/admin/question-bank/{questionBankId}")
+    public ResponseEntity<String> deleteQuestionBankById(@PathVariable("questionBankId") int questionBankId) throws IdNotFoundException
 	{
 		return new ResponseEntity<String>(questionBankService.deleteQuestionBankById(questionBankId), HttpStatus.OK);
 	}
+    
+    @GetMapping("/search/questionbank/{questionBankName}")
+    public ResponseEntity<QuestionBankDto> searchQuestionBankByName(@PathVariable("questionBankName") String questionBankName) throws NameNotFoundException
+	{
+		return new ResponseEntity<QuestionBankDto>(questionBankService.getQuestionBankWithQuestions(questionBankName), HttpStatus.OK);
+	}
+    
+    
 }
 

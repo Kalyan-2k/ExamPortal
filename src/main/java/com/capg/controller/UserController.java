@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.capg.dto.AdminDto;
 import com.capg.dto.UserDto;
 import com.capg.entity.User;
 import com.capg.exceptions.IdNotFoundException;
@@ -44,7 +45,7 @@ public class UserController {
 		return new ResponseEntity<String>(userService.checkUserByEmail(user),HttpStatus.OK);
 	}
  
-	@GetMapping("/user/all")
+	@GetMapping("/admin/users/all")
 	public ResponseEntity<List<User>> getAllUser()
 	{
 		return new ResponseEntity<List<User>>(userService.getAllUsers(),HttpStatus.OK);
@@ -81,5 +82,16 @@ public class UserController {
 	@PutMapping("/user/dashboard/{userId}")
 	public ResponseEntity<User> userDashboard(@PathVariable("userId")int userId,@RequestBody UserDto userDto)throws IdNotFoundException,InvalidPasswordException,InvalidNameException,InvalidGenderException{
 		return new ResponseEntity<User>(userService.updateUserById(userId,userDto),HttpStatus.OK);
+	}
+	
+	@GetMapping("/admin/dashboard/{adminId}")
+	public ResponseEntity<AdminDto> adminDashboard(@PathVariable("adminId") int adminId) throws IdNotFoundException{
+		return new ResponseEntity<AdminDto>(userService.getAdminDashboard(adminId),HttpStatus.OK);
+		
+	}
+	
+	@PutMapping("/admin/dashboard/{adminId}")
+	public ResponseEntity<User> adminDashboard(@PathVariable("adminId")int adminId,@RequestBody AdminDto adminDto)throws IdNotFoundException,InvalidPasswordException,InvalidNameException,InvalidGenderException{
+		return new ResponseEntity<User>(userService.updateAdminById(adminId,adminDto),HttpStatus.OK);
 	}
 }

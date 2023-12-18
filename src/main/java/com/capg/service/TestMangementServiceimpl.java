@@ -12,10 +12,12 @@ import com.capg.dto.QuestionDto;
 import com.capg.dto.ResultDto;
 import com.capg.entity.Question;
 import com.capg.entity.Result;
-import com.capg.entity.Tests;
 import com.capg.entity.TestManagement;
+import com.capg.entity.Tests;
 import com.capg.entity.User;
 import com.capg.exceptions.IdNotFoundException;
+import com.capg.exceptions.InvalidUserException;
+import com.capg.exceptions.UserAlreadyExistsException;
 import com.capg.repo.QuestionRepository;
 import com.capg.repo.ResultRepository;
 import com.capg.repo.TestManagementRepo;
@@ -28,7 +30,7 @@ public class TestMangementServiceimpl implements TestManagementService{
 
 	
 	@Autowired
-	TestManagementRepo testManagementRepo;
+	TestManagementRepo testManagementRepository;
 	
 	@Autowired
 	QuestionRepository questionRepository;
@@ -43,17 +45,27 @@ public class TestMangementServiceimpl implements TestManagementService{
 	UserRepo userRepository;
 	
 	@Override
-	public TestManagement registerTest(TestManagement testManagement) {
+	public TestManagement registerTest(TestManagement testManagement) throws UserAlreadyExistsException{
 		
-		return testManagementRepo.save(testManagement);
+		TestManagement userRegisteredForTest = testManagementRepository.fetchByUserIdAndTestId(testManagement.getUserId(),testManagement.getTestId());
+		if(userRegisteredForTest !=null) {
+			throw new UserAlreadyExistsException(AppConstants.USER_ALREADY_REGISTERED_FOR_TEST_INFO);
+		}
+		return testManagementRepository.save(testManagement);
 	}
 
 
-	public List<QuestionDto> takeTest(int userId, int testId) throws IdNotFoundException{
+	public List<QuestionDto> takeTest(int userId, int testId) throws IdNotFoundException,UserAlreadyExistsException,InvalidUserException{
+		
 		Result result=resultRepository.findByUserIdAndTestId(userId,testId);
+		TestManagement userRegisteredForTest = testManagementRepository.fetchByUserIdAndTestId(userId,testId);
+		
 		if (result !=null) {
-			return null; //need to update to exception code for test already taken user
-		}else {
+			throw new UserAlreadyExistsException(AppConstants.USER_ALREADY_TAKEN_THE_TEST_INFO); //need to update to exception code for test already taken user
+		}else if(userRegisteredForTest == null) {
+			throw new InvalidUserException(AppConstants.USER_NOT_REGISTERED_FOR_TEST_INFO);
+		}
+		else {
 			Optional<User> user=userRepository.findById((long)userId);
 			if(user.isPresent()) {
 				Optional<Tests> test=testRepository.findById(testId);

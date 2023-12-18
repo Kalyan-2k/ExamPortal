@@ -32,7 +32,7 @@ public class Tests {
 	
 	private boolean isActive=true;
 	
-	@ManyToOne(cascade=CascadeType.ALL,fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="category_id", referencedColumnName = "category_id")
 	@JsonBackReference(value = "category_id")
 	private Category category;

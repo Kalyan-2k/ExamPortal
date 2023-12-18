@@ -92,4 +92,14 @@ public class GlobalExceptionHandler {
         erroInfo.setLocalDateTime(LocalDateTime.now());
         return new ResponseEntity<ErrorInfo>(erroInfo, HttpStatus.BAD_REQUEST);
 	}
+	
+	@ExceptionHandler(InvalidUserException.class)
+	public ResponseEntity<ErrorInfo> handleInvalidUser(InvalidUserException invalidUserException)
+	{
+        ErrorInfo erroInfo = new ErrorInfo();
+        erroInfo.setErrormessage(invalidUserException.getMsg());
+        erroInfo.setStatus(HttpStatus.BAD_REQUEST.toString());
+        erroInfo.setLocalDateTime(LocalDateTime.now());
+        return new ResponseEntity<ErrorInfo>(erroInfo, HttpStatus.BAD_REQUEST);
+	}
 }

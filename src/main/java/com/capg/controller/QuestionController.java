@@ -19,7 +19,7 @@ import com.capg.exceptions.IdNotFoundException;
 import com.capg.service.QuestionService;
 
 @RestController
-@RequestMapping("api/v1")
+@RequestMapping("api/v1/admin")
 public class QuestionController {
 	
 	@Autowired

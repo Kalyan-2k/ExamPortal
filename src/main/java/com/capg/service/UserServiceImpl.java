@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.capg.dto.AdminDto;
 import com.capg.dto.UserDto;
 import com.capg.entity.User;
 import com.capg.exceptions.IdNotFoundException;
@@ -42,11 +43,11 @@ public class UserServiceImpl implements UserService
 			throw new UserAlreadyExistsException("User already present");
 		}
 		else {
-			if(!user.getFirstName().matches("^[a-zA-Z]+(\s[a-zA-Z]+)?$") || !user.getLastName().matches("^[a-zA-Z]+(\s[a-zA-Z]+)?$"))
+			if(!user.getFirstName().matches("^[a-zA-Z]+(\s[a-zA-Z]+)+$") || !user.getLastName().matches("^[a-zA-Z]+(\s[a-zA-Z]+)?$"))
 			{
 				throw new InvalidNameException(AppConstants.INVALID_NAME_INFO);
 			}		
-			if(!user.getGender().toLowerCase().equals("male") && !user.getGender().toLowerCase().equals("female") &&!user.getGender().toLowerCase().equals("others"))
+			if(!user.getGender().toLowerCase().equals("male") && !user.getGender().toLowerCase().equals("female") && !user.getGender().toLowerCase().equals("others"))
 			{
 				throw new InvalidGenderException(AppConstants.INVALID_GENDER_INFO);
 			}	
@@ -146,21 +147,25 @@ public class UserServiceImpl implements UserService
 	public UserDto getUserDashBoard(int userId) throws IdNotFoundException{
 		if(userRepo.existsById((long)userId)) {
 			User user = userRepo.findByUserId(userId);
-			UserDto newUser = new UserDto(user.getUserId(),user.getFirstName(),user.getLastName(),user.getGender(),user.getEmail());
-			return newUser;
+			if(user.getRole().equals("user")) {
+				UserDto newUser = new UserDto(user.getUserId(),user.getFirstName(),user.getLastName(),user.getGender(),user.getEmail());
+				return newUser;
+			}else {
+				throw new IdNotFoundException(AppConstants.INVALID_USER_INFO);
+			}
 		}
 		else {
 			throw new IdNotFoundException(AppConstants.USER_ID_NOT_FOUND_INFO);
 		}
 	}
-	public User updateUserById(int userId,UserDto userDto) throws IdNotFoundException,InvalidPasswordException,InvalidNameException,InvalidGenderException
+	public User updateUserById(int userId,UserDto userDto) throws IdNotFoundException,InvalidNameException,InvalidGenderException
 	{
 		User updateUser=this.userRepo.findByUserId(userId);
 		if(updateUser==null) {
 			throw new IdNotFoundException(AppConstants.USER_ID_NOT_FOUND_INFO);
 		}
 		else {
-			if(!userDto.getFirstName().matches("^[a-zA-Z]+(\s[a-zA-Z]+)?$") && !userDto.getLastName().matches("^[a-zA-Z ]*$"))
+			if(!userDto.getFirstName().matches("^[a-zA-Z]+(\s[a-zA-Z]+)+$") || !userDto.getLastName().matches("^[a-zA-Z ]*$"))
 			{
 				throw new InvalidNameException(AppConstants.INVALID_NAME_INFO);
 			}else {
@@ -172,6 +177,44 @@ public class UserServiceImpl implements UserService
 				throw new InvalidGenderException(AppConstants.INVALID_GENDER_INFO);
 			}else {
 				updateUser.setGender(userDto.getGender());
+			}
+			return userRepo.save(updateUser);
+		}				
+	}
+	
+	public AdminDto getAdminDashboard(int adminId) throws IdNotFoundException{
+		if(userRepo.existsById((long)adminId)){
+			User user = userRepo.findByUserId(adminId);
+			if(user.getRole().equals("admin")) {
+				AdminDto adminDto = new AdminDto(adminId,user);
+				return adminDto;
+			}else {
+				throw new IdNotFoundException(AppConstants.INVALID_USER_INFO);
+			}
+			
+		}else {
+			throw new IdNotFoundException(AppConstants.USER_ID_NOT_FOUND_INFO);
+		}
+	}
+	
+	public User updateAdminById(int adminId,AdminDto adminDto) throws IdNotFoundException,InvalidNameException,InvalidGenderException{
+		User updateUser=this.userRepo.findByUserId(adminId);
+		if(updateUser==null) {
+			throw new IdNotFoundException(AppConstants.USER_ID_NOT_FOUND_INFO);
+		}
+		else {
+			if(!adminDto.getFirstName().matches("^[a-zA-Z]+(\s[a-zA-Z]+)+$") || !adminDto.getLastName().matches("^[a-zA-Z ]*$"))
+			{
+				throw new InvalidNameException(AppConstants.INVALID_NAME_INFO);
+			}else {
+				updateUser.setFirstName(adminDto.getFirstName());
+				updateUser.setLastName(adminDto.getLastName());
+			}
+			if(!adminDto.getGender().toLowerCase().equals("male") && !adminDto.getGender().toLowerCase().equals("female") &&!adminDto.getGender().toLowerCase().equals("others"))
+			{
+				throw new InvalidGenderException(AppConstants.INVALID_GENDER_INFO);
+			}else {
+				updateUser.setGender(adminDto.getGender());
 			}
 			return userRepo.save(updateUser);
 		}				

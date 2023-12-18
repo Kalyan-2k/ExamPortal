@@ -24,7 +24,7 @@ public class QuestionBank {
 	@Column(name="questionbank_Name")
 	private String questionBankName;
 	
-	@OneToOne(cascade=CascadeType.ALL,fetch=FetchType.EAGER)
+	@OneToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="category_id",referencedColumnName="category_id")
 	@JsonBackReference(value="category_id")
 	private Category category;
@@ -38,12 +38,6 @@ public class QuestionBank {
 		this.questionBankId = questionBankId;
 		this.questionBankName = questionBankName;
 	}
-
-	public QuestionBank(int questionBankId, String questionBankName) {
-		this.questionBankId = questionBankId;
-		this.questionBankName = questionBankName;
-	}
-
 
 	public QuestionBank(int questionBankId, String questionBankName, Category category) {
 		this.questionBankId = questionBankId;

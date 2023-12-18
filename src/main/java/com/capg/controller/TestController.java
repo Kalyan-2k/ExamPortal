@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.capg.entity.Category;
 import com.capg.entity.Tests;
 import com.capg.exceptions.IdNotFoundException;
+import com.capg.exceptions.NameNotFoundException;
 import com.capg.service.TestService;
 
 @RestController
@@ -28,14 +28,14 @@ public class TestController {
 	    private TestService testService;
 
 	    //add test
-	    @PostMapping("/test")
+	    @PostMapping("admin/test")
 		public ResponseEntity<Tests> addTest(@RequestBody Tests test)
 		{
 			return new ResponseEntity <Tests>(testService.addTest(test), HttpStatus.OK);
 		}
 	    //update test
-	    @PutMapping("/test/{test_id}")
-	    public ResponseEntity<Tests> updateTestById(@PathVariable("test_id") int testId,@RequestBody Tests test) throws IdNotFoundException
+	    @PutMapping("admin/test/{testId}")
+	    public ResponseEntity<Tests> updateTestById(@PathVariable("testId") int testId,@RequestBody Tests test) throws IdNotFoundException
 		{
 			return new ResponseEntity<Tests>(testService.updateTestById(testId,test), HttpStatus.OK);
 		}
@@ -47,15 +47,15 @@ public class TestController {
 		}
 
 	    //get single test	
-	    @GetMapping("/test/{test_id}")
-	    public ResponseEntity<Tests> getTest(@PathVariable("test_id") int testId) throws IdNotFoundException
+	    @GetMapping("admin/test/{testId}")
+	    public ResponseEntity<Tests> getTest(@PathVariable("testId") int testId) throws IdNotFoundException
 		{
 			return new ResponseEntity<Tests>(testService.getTestById(testId), HttpStatus.OK);
 		}
 	    
 	    //delete test
-	    @DeleteMapping("/test/{test_id}")
-	    public ResponseEntity<String> deleteTestById(@PathVariable("test_id") int testId) throws IdNotFoundException
+	    @DeleteMapping("admin/test/{testId}")
+	    public ResponseEntity<String> deleteTestById(@PathVariable("testId") int testId) throws IdNotFoundException
 		{
 			return new ResponseEntity<String>(testService.deleteTestByTestId(testId), HttpStatus.OK);
 		}
@@ -66,5 +66,10 @@ public class TestController {
 //		{
 //			return new ResponseEntity<List<Tests>>(testService.getTestOfCategory(categoryId), HttpStatus.OK);
 //		}
+	    
+	    @GetMapping("/search/test/{testName}")
+	    public ResponseEntity<Tests> getTestByName(@PathVariable("testName") String testName) throws NameNotFoundException{
+	    	return new ResponseEntity<Tests>(testService.getTestByName(testName),HttpStatus.OK);
+	    }
 }
 

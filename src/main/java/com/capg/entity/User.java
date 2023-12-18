@@ -9,9 +9,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 
-@Entity
-@Table(name="users")
-public class User {
+@Entity    // To tell the DB that this class represents a table in the database
+@Table(name="users")  // It tells on which name does the table is going to stored in the DB as
+public class User { 
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -12,4 +12,7 @@ public interface QuestionRepository extends JpaRepository<Question,Integer>{
 	
 	@Query(value="select * from questions where category_id=:categoryId and is_active=true order by random() limit :numOfQuestions",nativeQuery =true)
 	List<Question> fetchQuestionsAtRandom(@Param("categoryId") int categoryId,@Param("numOfQuestions") int numOfQuestions);
+	
+	@Query(value="select * from questions where category_ID=:categoryId",nativeQuery=true)
+	List<Question> fetchQuestionsOfCategory(@Param("categoryId")int categoryId);
 }

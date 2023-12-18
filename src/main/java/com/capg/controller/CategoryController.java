@@ -20,7 +20,7 @@ import com.capg.exceptions.IdNotFoundException;
 import com.capg.service.CategoryService;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/admin")
 public class CategoryController {
 	
 	@Autowired

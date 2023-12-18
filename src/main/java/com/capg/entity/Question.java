@@ -38,7 +38,7 @@ public class Question {
 	@Column(name="crct_answer")
 	private String crctAnswer;
 	
-	@ManyToOne(cascade=CascadeType.ALL,fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="category_id", referencedColumnName = "category_id")
 	@JsonBackReference(value = "category_id")
     private Category category;
@@ -63,17 +63,18 @@ public class Question {
 	}
 
 
-//	public Question(String questionName, String option1, String option2, String option3, String option4,
-//			String crctAnswer, Category category, boolean isActive) {  // With Category
-//		this.questionName = questionName;
-//		this.option1 = option1;
-//		this.option2 = option2;
-//		this.option3 = option3;
-//		this.option4 = option4;
-//		this.crctAnswer = crctAnswer;
-//		this.category = category;
-//		this.isActive = isActive;
-//	}
+	public Question(int question_id,String questionName, String option1, String option2, String option3, String option4,
+			String crctAnswer, Category category, boolean isActive) { 
+		this.question_id = question_id; 
+		this.questionName = questionName;
+		this.option1 = option1;
+		this.option2 = option2;
+		this.option3 = option3;
+		this.option4 = option4;
+		this.crctAnswer = crctAnswer;
+		this.category = category;
+		this.isActive = isActive;
+	}
 
 
 

@@ -5,12 +5,15 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.capg.dto.QuestionBankDto;
 import com.capg.entity.Category;
+import com.capg.entity.Question;
 import com.capg.entity.QuestionBank;
 import com.capg.exceptions.IdNotFoundException;
 import com.capg.exceptions.NameNotFoundException;
 import com.capg.repo.CategoryRepository;
 import com.capg.repo.QuestionBankRepo;
+import com.capg.repo.QuestionRepository;
 import com.capg.util.AppConstants;
 
 @Service
@@ -21,6 +24,9 @@ public class QuestionBankServiceImpl implements QuestionBankService {
 	
 	@Autowired
 	CategoryRepository categoryRepository;
+	
+	@Autowired
+	QuestionRepository questionRepository;
 	
 	@Override
 	public QuestionBank addQuestionBank(QuestionBank questionBank) {
@@ -56,30 +62,29 @@ public class QuestionBankServiceImpl implements QuestionBankService {
 			throw new IdNotFoundException(AppConstants.QUESTIONBANK_ID_NOT_FOUND_INFO);
 		}
 		
-		}
+	}
 
-
-		public List<QuestionBank> getAllQuestionBanks() 
-		{
-		
-			return questionBankRepo.findAll();
-		}
-		
-		public QuestionBank getQuestionBankByName(String questionBankName) throws NameNotFoundException
-		{
+	public List<QuestionBank> getAllQuestionBanks() 
+	{
 	
-			System.out.println(questionBankName);
-			if(questionBankRepo.existsByQuestionBankName(questionBankName))
-			{
-				return questionBankRepo.getQuestionBankByName(questionBankName);
+		return questionBankRepo.findAll();
+	}
+		
+	public QuestionBank getQuestionBankByName(String questionBankName) throws NameNotFoundException
+	{
+
+//		System.out.println(questionBankName);
+		if(questionBankRepo.existsByQuestionBankName(questionBankName))
+		{
+			return questionBankRepo.getQuestionBankByName(questionBankName);
 //				System.out.println(questionBankRepo.getQuestionBankByName(questionBankName));
 //				msg="Id deleted successfully";
-			}
-			else
-			{
-				throw new NameNotFoundException(AppConstants.QUESTIONBANK_NAME_NOT_FOUND_INFO);
-			}
-		}		
+		}
+		else
+		{
+			throw new NameNotFoundException(AppConstants.QUESTIONBANK_NAME_NOT_FOUND_INFO);
+		}
+	}		
 
 		
 	public String deleteQuestionBankById(int QuestionBankId) throws IdNotFoundException
@@ -99,5 +104,19 @@ public class QuestionBankServiceImpl implements QuestionBankService {
 			return msg;
 		}
 
-	
+	public QuestionBankDto getQuestionBankWithQuestions(String questionBankName) throws NameNotFoundException {
+		if(questionBankRepo.existsByQuestionBankName(questionBankName)) {
+			QuestionBank questionBank = questionBankRepo.getQuestionBankByName(questionBankName);
+			List<Question> questions = questionRepository.fetchQuestionsOfCategory(questionBank.getCategory().getCategoryId());
+			QuestionBankDto questionBankDto = new QuestionBankDto();
+			questionBankDto.setQuestionBankId(questionBank.getQuestionBankId());
+			questionBankDto.setQuestionBankName(questionBank.getQuestionBankName());
+			questionBankDto.setQuestions(questions);
+			return questionBankDto;
+		
+		}else
+		{
+			throw new NameNotFoundException(AppConstants.QUESTIONBANK_NAME_NOT_FOUND_INFO);
+		}
+	}
 }

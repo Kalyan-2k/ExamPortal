@@ -18,6 +18,8 @@ import com.capg.dto.ResultDto;
 import com.capg.entity.Result;
 import com.capg.entity.TestManagement;
 import com.capg.exceptions.IdNotFoundException;
+import com.capg.exceptions.InvalidUserException;
+import com.capg.exceptions.UserAlreadyExistsException;
 import com.capg.service.TestManagementService;
 
 @RestController
@@ -28,14 +30,14 @@ public class TestManagementController {
 	TestManagementService testManagementService;
 	
 	
-	@PostMapping("/register/test")
-	public ResponseEntity<TestManagement> registerTest(@RequestBody TestManagement testManagement)
+	@PostMapping("/user/register/test")
+	public ResponseEntity<TestManagement> registerTest(@RequestBody TestManagement testManagement) throws UserAlreadyExistsException
 	{
 		return new ResponseEntity <TestManagement>(testManagementService.registerTest(testManagement), HttpStatus.OK);
 	}
 	
-	@GetMapping("/take/test/{userId}/{testId}")
-	public ResponseEntity<List<QuestionDto>> takeTest(@PathVariable("userId") int userId,@PathVariable("testId") int testId) throws IdNotFoundException{
+	@GetMapping("/user/take/test/{userId}/{testId}")
+	public ResponseEntity<List<QuestionDto>> takeTest(@PathVariable("userId") int userId,@PathVariable("testId") int testId) throws IdNotFoundException,UserAlreadyExistsException,InvalidUserException{
 		return new ResponseEntity<List<QuestionDto>>(testManagementService.takeTest(userId,testId),HttpStatus.OK);
 	}
 	

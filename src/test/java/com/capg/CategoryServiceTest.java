@@ -1,7 +1,12 @@
 package com.capg;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -19,6 +24,7 @@ import com.capg.entity.Category;
 import com.capg.entity.Question;
 import com.capg.entity.QuestionBank;
 import com.capg.entity.Tests;
+import com.capg.exceptions.CategoryAlreadyExistsException;
 import com.capg.exceptions.IdNotFoundException;
 import com.capg.repo.CategoryRepository;
 import com.capg.repo.QuestionBankRepo;
@@ -59,6 +65,36 @@ public class CategoryServiceTest {
 		testsList.add(new Tests(3,"test 3",10,10,true));
 	}
 	
+	@DisplayName("Test to add a new Category without exception ")
+	@Test
+    public void createCategoryTest() throws CategoryAlreadyExistsException {
+        // Arrange
+        Category categoryToAdd = new Category(1,"python",new QuestionBank(1,"Python Question Bank"),questionsList,testsList);
+        when(categoryRepository.findByCategoryName("python")).thenReturn(null);
+        when(categoryRepository.save(any(Category.class))).thenReturn(categoryToAdd);
+
+        // Act
+        Category addedCategory = categoryService.createCategory(categoryToAdd);
+
+        // Assert
+        assertNotNull(addedCategory);
+        assertEquals("python", addedCategory.getCategoryName());
+        verify(categoryRepository, times(1)).findByCategoryName("python");
+        verify(categoryRepository, times(1)).save(any(Category.class));
+    }
+
+    @Test
+    public void createCategoryWithExistingCategoryTest() {
+        // Arrange
+        Category categoryToAdd = new Category(1,"python",new QuestionBank(1,"Python Question Bank"),questionsList,testsList);
+        when(categoryRepository.findByCategoryName("python")).thenReturn(categoryToAdd);
+
+        // Act and Assert
+        assertThrows(CategoryAlreadyExistsException.class, () -> categoryService.createCategory(categoryToAdd));
+        verify(categoryRepository, times(1)).findByCategoryName("python");
+        verify(categoryRepository, times(0)).save(any(Category.class));
+    }
+    
 	@DisplayName("TestCase To Fetch All Categories")
 	@Test
 	public void getAllCategoriesTest() {
@@ -125,12 +161,28 @@ public class CategoryServiceTest {
         assertEquals(AppConstants.CATEGORY_ID_NOT_FOUND_INFO, exception.getMsg());
 
 	 }
-	 @DisplayName("TestCase To Update Category By Id Without Exception")
-	 @Test
-	 public void updateCategoryByIdWithoutExceptionTest(){
-		 int categoryId = 1;
-        IdNotFoundException exception = assertThrows(IdNotFoundException.class, () -> categoryService.deleteCategoryById(categoryId));
-        assertEquals(AppConstants.CATEGORY_ID_NOT_FOUND_INFO, exception.getMsg());
-
-	 }
+	 
+//	 @DisplayName("TestCase To Update Category By Id Without Exception")
+//	 @Test
+//	 public void updateCategoryByIdWithoutExceptionTest() {
+//	     // Assuming you have a valid category and category ID
+//	     int categoryId = 1;
+////	     Category category = new Category(1,"python",new QuestionBank(1,"Python Question Bank"),questionsList,testsList);
+//	     Category updatedCategory = new Category(1, "Updated Category", new QuestionBank(1, "Updated Question Bank"), questionsList, testsList);
+//
+//	     try {
+//	         when(categoryRepository.existsById(categoryId)).thenReturn(true);
+//	         when(categoryRepository.findById(categoryId)).thenReturn(Optional.empty()); // Replace with an actual existing category
+//	         when(categoryRepository.save(any(Category.class))).thenReturn(updatedCategory);
+//
+//	         Category result = categoryService.updateCategoryById(categoryId, updatedCategory);
+//
+//	         assertEquals(updatedCategory, result);
+//	         verify(categoryRepository, times(1)).save(any(Category.class));
+//	         verify(categoryRepository, times(1)).existsById(categoryId);
+//	         verify(categoryRepository, times(1)).findById(categoryId);
+//	     } catch (IdNotFoundException e) {
+//	         assertEquals(AppConstants.CATEGORY_ID_NOT_FOUND_INFO,e.getMessage());
+//	     }
+//	 }
 }

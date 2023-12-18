@@ -3,12 +3,14 @@ package com.capg.service;
 
 import java.util.List;
 
+import org.aspectj.weaver.ast.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.capg.entity.Category;
 import com.capg.entity.Tests;
 import com.capg.exceptions.IdNotFoundException;
+import com.capg.exceptions.NameNotFoundException;
 import com.capg.repo.CategoryRepository;
 import com.capg.repo.TestRepo;
 import com.capg.util.AppConstants;
@@ -16,7 +18,7 @@ import com.capg.util.AppConstants;
 public class TestServiceImpl implements TestService{
 
 	@Autowired
-	TestRepo testRepo;
+	TestRepo testRepository;
 	
 	@Autowired
 	CategoryRepository categoryRepository;
@@ -33,7 +35,7 @@ public class TestServiceImpl implements TestService{
 			test.setCategory(category);
 		}
 	
-		return testRepo.save(test);
+		return testRepository.save(test);
 	}
 
 
@@ -41,11 +43,11 @@ public class TestServiceImpl implements TestService{
 		
 		Tests updateTest=null;
 		
-		if(testRepo.existsById(testId))
+		if(testRepository.existsById(testId))
 		{
-			updateTest=testRepo.findById(testId).get();
+			updateTest=testRepository.findById(testId).get();
 			test.setTestId(testId);
-			return testRepo.save(test);
+			return testRepository.save(test);
 		}
 		else
 		{
@@ -57,14 +59,14 @@ public class TestServiceImpl implements TestService{
 	
 	public List<Tests> getAllTests() {
 		// TODO Auto-generated method stub
-		return testRepo.findAll();
+		return testRepository.findAllTestsActive();
 	}
 
 
 	public Tests getTestById(int testId) throws IdNotFoundException{
 
 		// TODO Auto-generated method stub
-		Tests test = testRepo.findById(testId).get(); 
+		Tests test = testRepository.findById(testId).get(); 
 		System.out.println(test);
 		if(test == null) {
 			throw new IdNotFoundException(AppConstants.TEST_ID_NOT_FOUND_INFO);
@@ -74,9 +76,9 @@ public class TestServiceImpl implements TestService{
 	}
 
 	public String deleteTestByTestId(int testId) throws IdNotFoundException{
-		if(testRepo.existsById(testId))
+		if(testRepository.existsById(testId))
 		{
-			testRepo.deleteById(testId);
+			testRepository.deleteById(testId);
 			return "Id deleted successfully";
 		}
 		else
@@ -85,5 +87,15 @@ public class TestServiceImpl implements TestService{
 		}
 		
 	}	
+	
+	public Tests getTestByName(String testName) throws NameNotFoundException {
+		Tests test = testRepository.findTestByName(testName);
+		if(test == null) {
+			throw new NameNotFoundException(AppConstants.TEST_NAME_NOT_FOUND_INFO);
+		}else {
+			return test;
+		}
+		
+	}
 }
 
