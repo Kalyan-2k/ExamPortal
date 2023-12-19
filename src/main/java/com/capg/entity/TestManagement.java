@@ -21,19 +21,21 @@ public class TestManagement {
 	@Column(name="test_id")
 	private int testId;
 	@Column(name="test_duration")
-	private long testDuration;
+	private long testDuration = 30;
 	@Column(name="start_date_time")
-	private LocalDateTime startDateTime;
+	private LocalDateTime startDateTime = LocalDateTime.now();;
 	@Column(name="end_date_time")
-	private LocalDateTime endDateTime;
-	
+	private LocalDateTime endDateTime = startDateTime.plusMinutes(testDuration);
+
+	public TestManagement() {
+	}
 	public TestManagement(int userId, int testId, long testDuration) {
 		super();
 		this.userId = userId;
 		this.testId = testId;
 		this.testDuration = testDuration;
-		this.startDateTime = LocalDateTime.now();
-		this.endDateTime = startDateTime.plusMinutes(testDuration);
+//		this.startDateTime = LocalDateTime.now();
+//		this.endDateTime = startDateTime.plusMinutes(testDuration);
 	}
 	public int getUserId() {
 		return userId;

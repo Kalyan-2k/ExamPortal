@@ -34,15 +34,15 @@ public class UserController {
 	UserService userService;
 	
 	@PostMapping("/register")
-	public ResponseEntity<User> createUser(@RequestBody User user) throws UserAlreadyExistsException,InvalidEmailException,InvalidPasswordException,InvalidNameException,InvalidGenderException
+	public ResponseEntity<User> register(@RequestBody User user) throws UserAlreadyExistsException,InvalidEmailException,InvalidPasswordException,InvalidNameException,InvalidGenderException
 	{
-		return new ResponseEntity<User>(userService.createUser(user),HttpStatus.OK);
+		return new ResponseEntity<User>(userService.registerUser(user),HttpStatus.OK);
 	}
 	
 	@PostMapping("/login")
-	public ResponseEntity<String> checkUser(@RequestBody User user) throws InvalidEmailException,InvalidPasswordException
+	public ResponseEntity<String> login(@RequestBody User user) throws InvalidEmailException,InvalidPasswordException
 	{
-		return new ResponseEntity<String>(userService.checkUserByEmail(user),HttpStatus.OK);
+		return new ResponseEntity<String>(userService.login(user),HttpStatus.OK);
 	}
  
 	@GetMapping("/admin/users/all")
@@ -51,13 +51,13 @@ public class UserController {
 		return new ResponseEntity<List<User>>(userService.getAllUsers(),HttpStatus.OK);
 	}
 	
-	@GetMapping("/user/{email}")
+	@GetMapping("/admin/user/{email}")
 	public ResponseEntity<User> getUser(@PathVariable("email") String email) throws InvalidEmailException
 	{
 		return new ResponseEntity<User>(userService.getUser(email),HttpStatus.OK);
 	}
 	
-	@DeleteMapping("/user/{userId}")
+	@DeleteMapping("/admin/user/{userId}")
 	public ResponseEntity<String> deleteUser(@PathVariable("userId")int userId) throws IdNotFoundException
 	{
 		return new ResponseEntity<String>(userService.deleteUser(userId),HttpStatus.OK);

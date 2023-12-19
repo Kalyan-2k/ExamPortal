@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService
 	@Autowired
 	private UserRepo userRepo;
 	
-	public User createUser(User user) throws UserAlreadyExistsException,InvalidEmailException,InvalidPasswordException,InvalidNameException,InvalidGenderException
+	public User registerUser(User user) throws UserAlreadyExistsException,InvalidEmailException,InvalidPasswordException,InvalidNameException,InvalidGenderException
 	{
 		User local=this.userRepo.findByEmail(user.getEmail());
 		
@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService
 			throw new UserAlreadyExistsException("User already present");
 		}
 		else {
-			if(!user.getFirstName().matches("^[a-zA-Z]+(\s[a-zA-Z]+)+$") || !user.getLastName().matches("^[a-zA-Z]+(\s[a-zA-Z]+)?$"))
+			if(!user.getFirstName().matches("^[a-zA-Z]+(\s[a-zA-Z]+)?$") || !user.getLastName().matches("^[a-zA-Z]+(\s[a-zA-Z]+)?$"))
 			{
 				throw new InvalidNameException(AppConstants.INVALID_NAME_INFO);
 			}		
@@ -62,6 +62,21 @@ public class UserServiceImpl implements UserService
 		}
 		return userRepo.save(user);
 		
+	}
+	
+	public String login(User user) throws InvalidEmailException,InvalidPasswordException{
+		User check_user = userRepo.findByEmail(user.getEmail().toLowerCase());
+		if(check_user !=null) {
+			if(check_user.getPassword().equals(user.getPassword())) {
+				if (check_user.getRole().equals("user"))
+					return "Welcome User";
+				else
+					return "Welcome Admin";
+			}else {
+				throw new InvalidPasswordException(AppConstants.USERNAME_OR_PASSWORD_MISMATCH);
+			}
+		}
+		throw new InvalidEmailException(AppConstants.USERNAME_OR_PASSWORD_MISMATCH);
 	}
 	
 	public User getUser(String email)throws InvalidEmailException
@@ -90,6 +105,7 @@ public class UserServiceImpl implements UserService
 		return "Id deleted Successfully";
 	}
 	
+	
 	@Override
 	public List<User> getAllUsers() {
 		
@@ -97,21 +113,6 @@ public class UserServiceImpl implements UserService
 		System.out.println(users);
 		
 		return users;
-	}
-	
-	public String checkUserByEmail(User user) throws InvalidEmailException,InvalidPasswordException{
-		User check_user = userRepo.findByEmail(user.getEmail().toLowerCase());
-		if(check_user !=null) {
-			if(check_user.getPassword().equals(user.getPassword())) {
-				if (check_user.getRole().equals("user"))
-					return "Welcome User";
-				else
-					return "Welcome Admin";
-			}else {
-				throw new InvalidPasswordException(AppConstants.USERNAME_OR_PASSWORD_MISMATCH);
-			}
-		}
-		throw new InvalidEmailException(AppConstants.USERNAME_OR_PASSWORD_MISMATCH);
 	}
 	
 	public String forgotUserPassword(UserDto userDto) throws InvalidEmailException,InvalidPasswordException,PasswordMismatchException{
@@ -165,7 +166,7 @@ public class UserServiceImpl implements UserService
 			throw new IdNotFoundException(AppConstants.USER_ID_NOT_FOUND_INFO);
 		}
 		else {
-			if(!userDto.getFirstName().matches("^[a-zA-Z]+(\s[a-zA-Z]+)+$") || !userDto.getLastName().matches("^[a-zA-Z ]*$"))
+			if(!userDto.getFirstName().matches("^[a-zA-Z]+(\s[a-zA-Z]+)?$") || !userDto.getLastName().matches("^[a-zA-Z]+(\\s[a-zA-Z]+)?$"))
 			{
 				throw new InvalidNameException(AppConstants.INVALID_NAME_INFO);
 			}else {
@@ -203,7 +204,7 @@ public class UserServiceImpl implements UserService
 			throw new IdNotFoundException(AppConstants.USER_ID_NOT_FOUND_INFO);
 		}
 		else {
-			if(!adminDto.getFirstName().matches("^[a-zA-Z]+(\s[a-zA-Z]+)+$") || !adminDto.getLastName().matches("^[a-zA-Z ]*$"))
+			if(!adminDto.getFirstName().matches("^[a-zA-Z]+(\\s[a-zA-Z]+)?$") || !adminDto.getLastName().matches("^[a-zA-Z]+(\\s[a-zA-Z]+)?$"))
 			{
 				throw new InvalidNameException(AppConstants.INVALID_NAME_INFO);
 			}else {

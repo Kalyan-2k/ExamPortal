@@ -24,7 +24,7 @@ public class QuestionBank {
 	@Column(name="questionbank_Name")
 	private String questionBankName;
 	
-	@OneToOne(fetch=FetchType.EAGER)
+	@OneToOne(fetch=FetchType.EAGER,cascade = CascadeType.ALL)	
 	@JoinColumn(name="category_id",referencedColumnName="category_id")
 	@JsonBackReference(value="category_id")
 	private Category category;

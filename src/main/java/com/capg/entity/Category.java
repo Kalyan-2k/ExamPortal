@@ -58,11 +58,6 @@ public class Category {
 		this.test = test;
 	}
 
-//	public Category(int categoryId, String categoryName,QuestionBank questionBank) {
-//		this.categoryId = categoryId;
-//		this.categoryName = categoryName;
-//		this.questionBank= questionBank;
-//	}
 
 	public int getCategoryId() {
 		return categoryId;

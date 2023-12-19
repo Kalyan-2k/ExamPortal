@@ -1,5 +1,6 @@
 package com.capg.service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -17,6 +18,7 @@ import com.capg.entity.Tests;
 import com.capg.entity.User;
 import com.capg.exceptions.IdNotFoundException;
 import com.capg.exceptions.InvalidUserException;
+import com.capg.exceptions.TimeExpiredException;
 import com.capg.exceptions.UserAlreadyExistsException;
 import com.capg.repo.QuestionRepository;
 import com.capg.repo.ResultRepository;
@@ -100,6 +102,11 @@ public class TestMangementServiceimpl implements TestManagementService{
 	
 	public ResultDto submitTest(int userId,int testId,List<QuestionDto> testQuestionAnswers) {
 		Result result=resultRepository.findByUserIdAndTestId(userId, testId);
+		TestManagement testManagement = testManagementRepository .fetchByUserIdAndTestId(userId, testId);
+		if (testManagement.getEndDateTime().isBefore(LocalDateTime.now())) {
+			
+			throw new TimeExpiredException(AppConstants.TEST_TIME_EXPIRED_INFO);
+		}
 		int size=result.getTestQuestionAnswers().size();
 		int score=0;
 		for(int index=0;index<size;index++) {

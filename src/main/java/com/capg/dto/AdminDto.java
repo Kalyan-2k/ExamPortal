@@ -17,6 +17,7 @@ public class AdminDto {
 	private String email;
 	private String gender;
 	private Map<String,String> profileUrls;
+	private Map<String,String> manageUserUrls;
 	private Map<String,String> categoryUrls;
 	private Map<String,String> questionUrls;
 	private Map<String,String> questionBankUrls;
@@ -64,11 +65,18 @@ public class AdminDto {
 		gender = user.getGender();
 		role = user.getRole();
 		email = user.getEmail();
-
+		
+		manageUserUrls = new HashMap<>();
+		
+		manageUserUrls.put("Fetch All User Details", "localhost:9050/api/v1/admin/users/all");
+		manageUserUrls.put("Find A User By His Email", "localhost:9050/api/v1/admin/user/{email}");
+		manageUserUrls.put("Delete a User By His User Id", "localhost:9050/api/v1/admin/user/{userId}");
+		
 		profileUrls = new HashMap<>();
 		
 		profileUrls.put("Update Admin Profile Url","localhost:9050/api/v1/admin/dashboard/"+this.adminId);
 		profileUrls.put("Reset Password Url","localhost:9050/api/v1/resetPassword/"+this.adminId);
+		
 		categoryUrls = new HashMap<>();
 		
 		categoryUrls.put("Add Category Url","localhost:9050/api/v1/admin/category");

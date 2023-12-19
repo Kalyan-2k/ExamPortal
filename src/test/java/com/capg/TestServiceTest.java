@@ -51,7 +51,7 @@ public class TestServiceTest {
     	testList.add(new Tests(2,"test 2",15,15,true,category));
     	testList.add(new Tests(3,"test 3",10,10,true,category));
 
-		when(testRepository.findAll()).thenReturn(testList);
+		when(testRepository.findAllTestsActive()).thenReturn(testList);
 		assertEquals(3,testService.getAllTests().size());
     }
 

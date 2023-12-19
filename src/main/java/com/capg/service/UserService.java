@@ -16,13 +16,13 @@ public interface UserService {
 	
 	public List<User> getAllUsers();
 	
-	public User createUser(User user) throws UserAlreadyExistsException,InvalidEmailException,InvalidPasswordException,InvalidNameException,InvalidGenderException;
+	public User registerUser(User user) throws UserAlreadyExistsException,InvalidEmailException,InvalidPasswordException,InvalidNameException,InvalidGenderException;
 	
 	public User getUser(String email) throws InvalidEmailException;
 	
 	public String deleteUser(int userId) throws IdNotFoundException;
 	
-	public String checkUserByEmail(User user) throws InvalidEmailException,InvalidPasswordException;
+	public String login(User user) throws InvalidEmailException,InvalidPasswordException;
 	
 	public String forgotUserPassword(UserDto userDto) throws InvalidEmailException,InvalidPasswordException,PasswordMismatchException;
 	
