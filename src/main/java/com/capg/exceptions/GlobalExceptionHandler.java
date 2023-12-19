@@ -102,4 +102,14 @@ public class GlobalExceptionHandler {
         erroInfo.setLocalDateTime(LocalDateTime.now());
         return new ResponseEntity<ErrorInfo>(erroInfo, HttpStatus.BAD_REQUEST);
 	}
+	
+	@ExceptionHandler(TimeExpiredException.class)
+	public ResponseEntity<ErrorInfo> handleOverTime(TimeExpiredException timeExpiredException)
+	{
+        ErrorInfo erroInfo = new ErrorInfo();
+        erroInfo.setErrormessage(timeExpiredException.getMsg());
+        erroInfo.setStatus(HttpStatus.BAD_REQUEST.toString());
+        erroInfo.setLocalDateTime(LocalDateTime.now());
+        return new ResponseEntity<ErrorInfo>(erroInfo, HttpStatus.BAD_REQUEST);
+	}
 }
